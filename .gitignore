@@ -3,4 +3,5 @@
 
 # 允许追踪特定文件
 !typhoon_encounter_analysis.ipynb
+!git_learning_guide.md
 !.gitignore
