@@ -47,8 +47,8 @@ graph LR
 
 | 命令 | 通俗解释 | 为什么使用它？ |
 | :--- | :--- | :--- |
-| **`git config --local user.name "名字"`**<br>**`git config --local user.email "邮箱"`** | **“换上马甲”**：只修改当前项目里的提交者姓名 and 邮箱，不影响你电脑上的其他项目。 | 我们把你的作者身份改为了 `TronYolo` 和你的个人邮箱 `csxtron@gmail.com`。 |
-| **`git commit --amend --reset-author --no-edit`** | **“重洗照片”**：用刚才新设置的个人身份，重写最新一次的提交记录，且不修改留言。 | 我们用它把刚刚带有公司邮箱的第一个提交记录，擦除改成了你的个人邮箱。 |
+| **`git config --local user.name "名字"`**<br>**`git config --local user.email "邮箱"`** | **“换上马甲”**：只修改当前项目里的提交者姓名和邮箱，不影响你电脑上的其他项目。 | 我们把你的作者身份改为了 `TronYolo` 和你的个人邮箱 `csxtron@gmail.com`。 |
+| **`git commit --amend --reset-author --no-edit`** | **“重洗照片”**：用刚才新设置 of 个人身份，重写最新一次的提交记录，且不修改留言。 | 我们用它把刚刚带有公司邮箱的第一个提交记录，擦除改成了你的个人邮箱。 |
 
 ---
 
@@ -56,7 +56,7 @@ graph LR
 
 | 命令 | 通俗解释 | 我们刚才用它做了什么？ |
 | :--- | :--- | :--- |
-| **`git branch -M main`** | **“改名主线”**：将本地的默认分支名字由旧版的 `master` 改为现代通用的 `main`。 | 确保与 GitHub 默认的 `main` 分支名称一致，防止推送时产生冲突。 |
+| **`git branch -M main`** | **“改名主线”**：将本地的默认分支名字由旧版 `master` 改为现代通用的 `main`。 | 确保与 GitHub 默认的 `main` 分支名称一致，防止推送时产生冲突。 |
 | **`git remote add origin 链接`** | **“绑定云端”**：把本地仓库和 GitHub 上的线上空仓库地址连接起来。 | 我们将你的本地项目绑定到了 `https://github.com/TronYolo/Typhoon.git`。 |
 | **`git remote set-url origin 链接(带Token)`** | **“插入临时钥匙”**：修改连接地址，把你的 Token（临时密码）直接塞进链接中。 | 我们把你的 Token 强行加入推送地址中，绕过了你电脑里默认的工作账户凭证。 |
 | **`git push -u origin main`** | **“上传云端”**：把本地 `main` 分支的代码，推送到云端的 `origin`（即GitHub）上。 | 我们执行了上传，使你的 `.ipynb` 文件在 GitHub 上成功显示。 |
@@ -65,9 +65,59 @@ graph LR
 
 ## 3. 日常最常用的 4 个黄金命令
 
-以后你自己在家里开发时，最经常用到的只有这四个命令循环：
+以后你自己在电脑上开发时，最经常用到的只有这四个命令循环：
 
 1. **`git status`**：写完代码，随时看一下改动了哪些文件。
-2. **`git add <文件名>`**：准备提交。
+2. **`git add .`**：把修改内容放入暂存区，准备提交。
 3. **`git commit -m "这里写你的修改说明"`**：在本地保存一个版本。
-4. **`git push`**：把本地保存的版本推送到云端。
+4. **`git push`**：把本地保存的版本推送到 GitHub 云端。
+
+---
+
+## 4. 🏠 双机协作黄金循环（公司 ⇄ 家里）
+
+当你在不同电脑上轮流做东西时，遵循以下开发循环：
+
+### 第一天回家（首次配置）
+因为家里电脑还没有该文件夹，你需要进行一次**克隆（下载）**：
+```bash
+# 在你喜欢的目录下运行，这会创建一个 Typhoon 文件夹
+git clone https://github.com/TronYolo/Typhoon.git
+```
+
+### 之后的日常交替开发
+
+```mermaid
+sequenceDiagram
+    participant Office as 🏢 公司电脑
+    participant GitHub as ☁️ GitHub 云端
+    participant Home as 🏠 家里电脑
+
+    Note over Office: 白天写完代码
+    Office->>GitHub: 【下班前推送】 git add . -> commit -> git push
+    Note over Home: 回到家，准备写代码
+    Home->>GitHub: 【写前先拉取】 git pull
+    Note over Home: 修改并测试完代码
+    Home->>GitHub: 【睡觉前推送】 git add . -> commit -> git push
+    Note over Office: 第二天到公司
+    Office->>GitHub: 【写前先拉取】 git pull
+```
+
+* **公司下班前**：
+  ```bash
+  git add .
+  git commit -m "在公司完成的工作说明"
+  git push
+  ```
+* **回到家里后**：
+  ```bash
+  git pull
+  git add .
+  git commit -m "在家里完成的工作说明"
+  git push
+  ```
+* **第二天回到公司**：
+  ```bash
+  git pull
+  # 继续开发...
+  ```
