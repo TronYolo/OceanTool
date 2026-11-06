@@ -1,7 +1,11 @@
-# 忽略文件夹下的所有文件和文件夹
-*
+# Python 缓存
+__pycache__/
+*.pyc
 
-# 允许追踪特定文件
-!typhoon_encounter_analysis.ipynb
-!git_learning_guide.md
-!.gitignore
+# Python 虚拟环境
+.venv/
+venv/
+
+# 密钥及本地环境变量
+.env
+.env.*
